@@ -155,6 +155,14 @@ uis.controller('uiSelectCtrl',
         } else {
           ctrl.$animate.on('removeClass', searchInput[0], animateHandler);
         }
+
+        $timeout(function () {
+          $timeout(function () {
+            if(!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
+              _ensureHighlightVisible();
+            }
+          });
+        });
       } else {
         $timeout(function () {
           ctrl.focusSearchInput(initSearchValue);
