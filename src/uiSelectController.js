@@ -131,6 +131,16 @@ uis.controller('uiSelectCtrl',
         ctrl.activeIndex = 0;
       }
 
+      var funcusFn = function() {
+        $timeout(function () {
+          ctrl.focusSearchInput(initSearchValue);
+
+          if(!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
+            _ensureHighlightVisible();
+          }
+        });
+      }
+
       var container = $element.querySelectorAll('.ui-select-choices-content');
       var searchInput = $element.querySelectorAll('.ui-select-search');
       if (ctrl.$animate && ctrl.$animate.on && ctrl.$animate.enabled(container[0])) {
@@ -138,15 +148,11 @@ uis.controller('uiSelectCtrl',
           if (phase === 'start' && ctrl.items.length === 0) {
             // Only focus input after the animation has finished
             ctrl.$animate.off('removeClass', searchInput[0], animateHandler);
-            $timeout(function () {
-              ctrl.focusSearchInput(initSearchValue);
-            });
+            funcusFn();
           } else if (phase === 'close') {
             // Only focus input after the animation has finished
             ctrl.$animate.off('enter', container[0], animateHandler);
-            $timeout(function () {
-              ctrl.focusSearchInput(initSearchValue);
-            });
+            funcusFn();
           }
         };
 
@@ -155,21 +161,8 @@ uis.controller('uiSelectCtrl',
         } else {
           ctrl.$animate.on('removeClass', searchInput[0], animateHandler);
         }
-
-        $timeout(function () {
-          $timeout(function () {
-            if(!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
-              _ensureHighlightVisible();
-            }
-          });
-        });
       } else {
-        $timeout(function () {
-          ctrl.focusSearchInput(initSearchValue);
-          if(!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
-            _ensureHighlightVisible();
-          }
-        });
+        funcusFn();
       }
     }
     else if (ctrl.open && !ctrl.searchEnabled) {
