@@ -131,15 +131,15 @@ uis.controller('uiSelectCtrl',
         ctrl.activeIndex = 0;
       }
 
-      var funcusFn = function() {
+      var funcusFn = function () {
         $timeout(function () {
           ctrl.focusSearchInput(initSearchValue);
 
-          if(!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
+          if (!ctrl.tagging.isActivated && ctrl.items.length > 1 && ctrl.open) {
             _ensureHighlightVisible();
           }
         });
-      }
+      };
 
       var container = $element.querySelectorAll('.ui-select-choices-content');
       var searchInput = $element.querySelectorAll('.ui-select-search');
